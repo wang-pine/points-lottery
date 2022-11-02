@@ -1,0 +1,42 @@
+QPushButton {
+background-color: #ffffff;
+border: 1px solid #dcdfe6;
+padding: 2px;
+border-radius: 15px;
+width:100px;
+height:30px;
+}
+
+QPushButton:hover {
+background-color: #ecf5ff;
+color: #409eff;
+}
+
+QPushButton:pressed, QPushButton:checked {
+border: 1px solid #3a8ee6;
+color: #409eff;
+}
+
+QLineEdit{
+background-color: #ffffff;
+border: 1px solid #dcdfe6;
+padding: 2px;
+border-radius: 25px;
+width:300px;
+height:50px;
+}
+QLineEdit:hover {
+background-color: #ecf5ff;
+color: #409eff;
+}
+QLineEdit:pressed, QLineEdit:checked {
+border: 1px solid #3a8ee6;
+color: #409eff;
+}
+#LoginWindow{
+border-top-left-radius:10px;
+border-top-right-radius:10px;
+border-bottom-left-radius:10px;
+border-bottom-right-radius:10px;
+border-image: url(:/Pic/backGround.png);
+}

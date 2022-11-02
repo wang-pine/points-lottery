@@ -1,0 +1,18 @@
+#headBtn {
+background-color: #ffffff;
+border: 1px solid #dcdfe6;
+padding: 2px;
+border-radius: 15px;
+width:100px;
+height:30px;
+}
+
+#headBtn:hover {
+background-color: #ecf5ff;
+color: #409eff;
+}
+
+#headBtn:pressed, #headBtn:checked {
+border: 1px solid #3a8ee6;
+color: #409eff;
+}

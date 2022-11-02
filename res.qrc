@@ -1,0 +1,33 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Pic/backGround.png</file>
+        <file>Pic/backGround-Gauss.png</file>
+        <file>Icon/add.png</file>
+        <file>Icon/close.png</file>
+        <file>Icon/data.png</file>
+        <file>Icon/delete.png</file>
+        <file>Icon/home.png</file>
+        <file>Icon/manage.png</file>
+        <file>Icon/myown.png</file>
+        <file>Icon/search.png</file>
+        <file>Icon/setup.png</file>
+        <file>styleSheet.qss</file>
+        <file>Icon/pwd.png</file>
+        <file>Icon/exit.png</file>
+        <file>gamble.png</file>
+        <file>Head/man1.png</file>
+        <file>Head/man2.png</file>
+        <file>Head/man3.png</file>
+        <file>Head/man4.png</file>
+        <file>Head/man5.png</file>
+        <file>Head/man6.png</file>
+        <file>Head/woman1.png</file>
+        <file>Head/woman2.png</file>
+        <file>Head/woman3.png</file>
+        <file>Head/woman4.png</file>
+        <file>Head/woman5.png</file>
+        <file>Head/woman6.png</file>
+        <file>Icon/phone.png</file>
+        <file>sty2.qss</file>
+    </qresource>
+</RCC>
