@@ -129,6 +129,7 @@ QVector<good> tentimes(user& u, QVector<good>goodlist, gamble g1)
     for (i = 0; i < 10; i++)
     {
         prize.push_back(g1.start(u, goodlist));
+        //sleep(1000);
     }
     return prize;
 }

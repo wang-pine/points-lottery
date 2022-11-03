@@ -9,7 +9,8 @@
 addONE::addONE(QString str){
     this->userID_str = str;
 }
-void addONE::gambONE(){
+void addONE::gambONE(QString first_prize){
+    ID_get = first_prize.toInt();
      QVector<good> goodlist;
     //gamble gam(rate,id_Int,score);
 
@@ -107,6 +108,9 @@ void addONE::gambONE(){
     QVector<good>::iterator num;
     for(num = goodlist.begin();num != goodlist.end();num ++){
         qDebug() << num->id << ":" << num->name << ":" << num->price << ":" << num->num;
+        if(num->id == ID_get){
+            return_num = num->num;
+        }
     }
     /*
      *
@@ -117,12 +121,16 @@ void addONE::gambONE(){
     QVector<prize> prizelist;//奖池奖品数组,prizelist[1]是概率最低的奖品（一等奖）。
      *
      */
-    gamble gam(rate,100005,score);
+    gamble gam(rate,first_prize.toInt(),score);
     user user_temp(t1);
-    gam.add(100007,0.5);
+    gam.add(100001,0.5);
+    gam.add(100002,0.2);
+    gam.add(100003,0.2);
     good prize = gam.start(user_temp,goodlist);
-    qDebug() << "最终奖品是"  << prize.name.toUtf8();
+    qDebug() << "最终奖品是"  << prize.name;
+    prize_get = prize.name;
     qDebug() << "此时在gamble中的random的值是" << gam.random_Value;
+
     struct prize
     {
         int id=0;

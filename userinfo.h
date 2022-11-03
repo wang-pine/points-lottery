@@ -5,6 +5,8 @@
 #include <QString>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QTextBrowser>
+
 namespace Ui {
 class UserInfo;
 }
@@ -21,9 +23,12 @@ public:
     void setMoney(QString money);
     void addBtnClik();
     void addTENBtnClik();
+    void addBrowserClik();
     QVBoxLayout *ui_vLayWin;
     QPushButton *addONEBtn;
     QPushButton *addTENBtn;
+    QTextBrowser *text;
+    void print(QString mes,QString score);
 signals:
     void addONE_clicked();
     void addTEN_clicked();
@@ -31,7 +36,7 @@ private:
     Ui::UserInfo *ui;
     bool addONEBtnJUD = false;
     bool addTENBtnJUD = false;
-
+    bool addBrowserJUD = false;
 };
 
 #endif // USERINFO_H

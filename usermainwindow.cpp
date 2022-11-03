@@ -6,10 +6,17 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 #include <QTextCodec>
+#include <QTimer>
+#include <QMessageBox>
+#include <QButtonGroup>
+
 #include "gamble.h"
 #include "addone.h"
 #include "QDebug"
 #include "usertab.h"
+//def printf(self, mes):
+
+
 UserMainWindow::UserMainWindow(QWidget *parnet):
     QWidget(parnet),
     ui_wSatckTabs(new QStackedWidget)
@@ -24,7 +31,11 @@ UserMainWindow::UserMainWindow(QWidget *parnet):
     ui_info2 = new UserInfo(this);
 
     ui_buy = new QTextBrowser(this);
-    ui_gamble = new QTextBrowser(this);
+    ui_gamble = new QTableView(this);
+    gambleModel = new QStandardItemModel();
+    gambleModel->setColumnCount(3);
+    gambleModel->setHorizontalHeaderLabels(QStringList() << "check" << "prize" << "info");
+    ui_gamble->setModel(gambleModel);
     QPushButton *btnONE = new QPushButton();
     btnONE->setText("单抽");
     buySplitter = new QSplitter;
@@ -47,14 +58,21 @@ UserMainWindow::UserMainWindow(QWidget *parnet):
     ui_vLayWindow->setMargin(0);
     setLayout(ui_vLayWindow);
     connect(ui_tab,&UserTab::tab1_Clicked,[=](){ui_wSatckTabs->setCurrentWidget(buySplitter);});
-    connect(ui_tab,&UserTab::tab2_Clicked,[=]{ui_wSatckTabs->setCurrentWidget(gambleSplitter);ui_info->addBtnClik();ui_info->addTENBtnClik();});
-    connect(ui_info,&UserInfo::addONE_clicked,[=](){gambONE(UID);});
+    connect(ui_tab,&UserTab::tab2_Clicked,[=]{
+        ui_wSatckTabs->setCurrentWidget(gambleSplitter);
+        ui_info->addBrowserClik();
+        ui_info->addBtnClik();
+        ui_info->addTENBtnClik();
+        openGamble();});
+    connect(ui_info,&UserInfo::addONE_clicked,[=](){
+        priz = gambONE(UID);
+        ui_info->print(priz,score_str);
+    });
 }
 void UserMainWindow::setUid(QString id){
     this->UID=id;
-    ui_info->setID(id);ui_info2
-
-            ->setID(id);
+    ui_info->setID(id);
+    ui_info2->setID(id);
     qDebug() << "在usermainwindow中UID是" << this->UID;
     QFile info(QDir::currentPath() + "/txt/userinfo.txt");
     info.open(QIODevice::ReadOnly|QIODevice::Text);
@@ -110,23 +128,116 @@ void UserMainWindow::setUid(QString id){
             if(ptr2[i] != '\t' && ptr2[i] !='\n'){
                 temp2.push_back(ptr2[i]);
             }else{
-                countT ++;
                 qDebug() << temp2;
-                if(countT == 2){name = temp2;qDebug() << "name" << name;ui_info->setName(name);ui_info2->setName(name);};
-                if(countT == 3){score = temp2;qDebug() << "score" << score;ui_info->setScore(score);ui_info2->setScore(score);};
-                if(countT == 4){money = temp2;ui_info->setMoney(money);ui_info2->setMoney(money);};
+                if(countT > 0){
+                    if(countT == 1){name = temp2;qDebug() << "name" << name;ui_info->setName(name);ui_info2->setName(name);};
+                    if(countT == 3){score = temp2;qDebug() << "score" << score;score_str = score;ui_info->setScore(score);ui_info2->setScore(score);};
+                    if(countT == 4){money = temp2;ui_info->setMoney(money);ui_info2->setMoney(money);countT = -1;};
+                }
+                if(countT > 0)countT ++;
                 if(temp2 == UID){
                     qDebug() << "捕捉到uid" << UID;
                     OK = true;
+                    countT ++;
                 }
                 temp2 = "";
             }
         }
     }
+    qDebug() << "在主窗口中此时的用户数据" << UID << ":" << name << ":" << score <<  ":" << money;
     info2.close();
 
 }
-void UserMainWindow::gambONE(QString id){
-    addONE add(id);
-    add.gambONE();
+QString UserMainWindow::gambONE(QString id){
+    if(score_str.toInt() < 160){
+        QMessageBox *box = new QMessageBox;
+        QPushButton *btn = new QPushButton(QString::fromLocal8Bit("yes"));
+        box->setIcon(QMessageBox::Warning);
+        box->addButton(btn,QMessageBox::AcceptRole);
+        box->setText(tr("警告！")+tr("积分显然不足！"));
+        //QMessageBox::warning(this, tr("警告！"),tr("积分显然不足"),QMessageBox::Yes);
+        box->exec();
+        if(box->clickedButton() == btn){
+            box->close();
+        }
+    }else{
+        addONE add(id);
+        /*通过扫描复选框来判定需要选择的*/
+        int row = gambleModel->rowCount();
+        int column = gambleModel->columnCount();
+        int checkedCount = 0;
+        QString check_str;
+        for(int i = 0;i < row;i++){
+            qDebug() <<"在第" << i << "行的checkState为" << gambleModel->item(i,0)->checkState();
+            if(gambleModel->item(i,0)->checkState() == Qt::Checked){
+                checkedCount ++;
+                check_str = gambleModel->item(i,1)->text().trimmed();
+
+            }
+        }
+        if(checkedCount > 1){
+            QMessageBox::warning(this, tr("警告！"),tr("一次仅仅可以选择一个奖池进行抽奖！"),QMessageBox::Yes);
+        }else if(checkedCount == 0){
+            QMessageBox::warning(this, tr("警告！"),tr("请选择目标奖池进行抽奖！"),QMessageBox::Yes);
+        }else{
+            qDebug() << "checked的内容是" << check_str;
+            first_prize_str = check_str;
+            if(first_prize_num == 0){
+                add.gambONE("100001");
+            }else{
+                add.gambONE(first_prize_str);//设置一等奖的字符串                
+            }
+
+            if(!JUD){
+            first_prize_num = add.return_num;
+            JUD = true;
+            }
+            qDebug() << "函数被调用";
+            int temp1 = score_str.toInt() - 160;
+            QString temp2 = QString::number(temp1);
+            ui_info->setScore(temp2);
+            score_str = temp2;
+            //ui_info->repaint();
+
+            if(add.prize_get == first_prize_str){
+                first_prize_num --;
+            }
+            return add.prize_get;
+        }
+    }
+}
+void UserMainWindow::openGamble(){
+    QFile temp(QDir::currentPath() + "/txt/gamble.txt");
+    temp.open(QIODevice::ReadOnly | QIODevice::Text);
+    QByteArray arr;
+    QTextCodec *tc = QTextCodec::codecForName("UTF-8");
+    int countColumn = 1;
+    int countRow = 0;
+    //QButtonGroup *group = new QButtonGroup(this);
+    while(!temp.atEnd()){
+        arr = temp.readLine();
+        QString ptr = tc->toUnicode(arr);
+        int len = arr.size();
+        QString temp_str;
+        for(int i = 0;i < len ;i ++){
+            if(ptr[i] != '\t' && ptr[i] != '\n'){
+                //qDebug() << ptr[i] ;
+                temp_str.push_back(ptr[i]);
+            }else{
+                gambleModel->setItem(countRow,countColumn,new QStandardItem(temp_str));
+                QStandardItem *check = new QStandardItem;
+                check->setCheckable(true);
+                check->setCheckState(Qt::Unchecked);
+                //group ->addButton(check);
+                gambleModel->setItem(countRow,0,check);
+                countColumn ++;
+                if(countColumn == 3){
+                    countColumn = 1;
+                    countRow ++;
+                }
+                temp_str = "";
+            }
+        }
+    }
+    temp.close();
 }

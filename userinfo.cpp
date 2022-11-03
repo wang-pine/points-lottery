@@ -4,6 +4,8 @@
 #include <QVBoxLayout>
 #include <QPixmap>
 #include <QDebug>
+#include <QTimer>
+
 UserInfo::UserInfo(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::UserInfo)
@@ -187,4 +189,19 @@ void UserInfo::addTENBtnClik(){
         ui_vLayWin->addWidget(addTENBtn);
         addTENBtnJUD = true;
     }
+}
+void UserInfo::addBrowserClik(){
+    if(!addBrowserJUD){
+        text = new QTextBrowser(this);
+        ui_vLayWin->addWidget(text);
+        addBrowserJUD = true;
+    }
+}
+void UserInfo::print(QString mes,QString score){
+    QTimer tim;
+    tim.setInterval(1000);
+    this->text->append(tr("恭喜抽中:") + mes);
+    this->text->append(tr("账户余额:") + score);
+    tim.start();
+    this->text->ensureCursorVisible();
 }

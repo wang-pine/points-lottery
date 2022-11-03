@@ -60,8 +60,8 @@ LoginWindow::LoginWindow(QWidget *parent)
     pwdLEd->setEchoMode(QLineEdit::Password);//输入的密码以圆点显示
 
     /*/////////////////////方便////////////////////*/
-        userNameLEd->setText("100015");
-        pwdLEd->setText("123123");
+//        userNameLEd->setText("100015");
+//        pwdLEd->setText("123123");
 
 
     //登录按钮

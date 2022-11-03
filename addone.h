@@ -9,12 +9,14 @@ class addONE
 {
 public:
     addONE(QString id);
-    void gambONE();
+    void gambONE(QString first_prize);
     void setUserID(QString id);
-
+    QString prize_get;
+    int return_num = 0;
 private:
     QString userID_str;
-    double rate = 0.5;
+    double rate = 0.1;
+    int ID_get = 0;
     int id_Int;/*读入gamble.txt*/
     int score = 160;
 };
