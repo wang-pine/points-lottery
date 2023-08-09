@@ -29,6 +29,7 @@ course design,you can use supermarket points to play luck draws
 ## 3.修改信息
 管理员在页面中点击“查看”按钮后查看当前的用户信息情况，并且可以通过选中相应的信息直接在该页面进行修改。
 点击“保存”按钮之后，系统自动在文件之中保存修改后的信息，如图所示。
+
 ![image](https://github.com/wang-pine/points-lottery/assets/88295502/bef4760f-8168-4c22-8efc-c74937e9be03)
 
 # 基本界面信息
