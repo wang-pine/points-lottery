@@ -13,6 +13,12 @@ course design,you can use supermarket points to play luck draws
 
 [luoningliu](https://github.com/luoningliu)
 
+> 叠甲：由于开发这个项目的时候我们才刚刚学数据结构，仅仅学过简单的c++开发，Qt还是我们暑假自己摸索的，所以项目中可能有不成熟的地方，或者是没有使用高级的算法或数据结构而是选择了简单的for循环等等，请注意，那绝非我们刻意而为之，只是真的当时太菜了，希望各路大神以发展的眼光看问题，轻点喷啊，thank you
+# 基本架构图
+![超市购物积分抽奖系统Vol 2](https://github.com/wang-pine/points-lottery/assets/88295502/3f474c93-5dd6-40e1-9a7e-33788e877204)
+![项目架构](https://github.com/wang-pine/points-lottery/assets/88295502/8bf85980-a21d-473b-8048-d9143dc98abc)
+当然了，项目开发后期由于Qt独特的文件结构问题，我没有完全的按照架构开发，这个可以作为开发的思路
+
 # 基本函数以及功能实现
 ## 1.登录
 登录函数：用于用户进行登录和注册操作。用户启动程序可以选择通过输入用户名密码进行登录或者进行注册操作。若选择通过输入用户名密码进行登录，
